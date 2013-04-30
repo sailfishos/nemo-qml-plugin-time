@@ -1,4 +1,3 @@
-import QtQuick 1.1
 import org.nemomobile.time 1.0
 
 WallClock {
