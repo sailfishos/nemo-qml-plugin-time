@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testdefinition version="1.0">
+   <suite name="nemo-qml-plugin-time" domain="nemo-qml-plugin-time">
+       <set name="nemo-qml-plugin-time-unit-tests" feature="time">
+           <case name="nemo-qml-plugin-time-unit-tests_tst_WallClock" type="Unit" level="Component">
+               <step>@PATH@/tst_wallclock</step>
+           </case>
+       </set>
+   </suite>
+</testdefinition>
