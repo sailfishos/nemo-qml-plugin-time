@@ -96,6 +96,7 @@ void WallClockPrivateMeego::settingsChanged(const Maemo::Timed::WallClock::Info 
 {
     bool tzChange = newInfo.humanReadableTz() != info.humanReadableTz();
     bool tzaChange = newInfo.tzAbbreviation() != info.tzAbbreviation();
+    bool hourModeChange = newInfo.flagFormat24() != info.flagFormat24();
 
     info = newInfo;
 
@@ -105,7 +106,7 @@ void WallClockPrivateMeego::settingsChanged(const Maemo::Timed::WallClock::Info 
         timezoneAbbreviationChanged();
     if (time_changed)
         systemTimeChanged();
-    if (tzaChange || tzaChange || time_changed)
+    if (tzaChange || tzaChange || time_changed || hourModeChange)
         timeChanged();
 }
 
