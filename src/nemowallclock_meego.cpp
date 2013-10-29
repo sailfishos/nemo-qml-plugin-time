@@ -35,6 +35,8 @@
 #include <timed-qt5/wallclock>
 #include "nemowallclock_p.h"
 
+#include <mce/dbus-names.h>
+#include <mce/mode-names.h>
 
 class WallClockPrivateMeego : public WallClockPrivate
 {
@@ -48,11 +50,11 @@ public:
 
 private slots:
     void settingsChanged(const Maemo::Timed::WallClock::Info &info, bool time_changed);
+    void onDisplayStatusChanged(const QString &status);
 
 private:
     Maemo::Timed::WallClock::Info info;
 };
-
 
 WallClockPrivate *nemoCreateWallClockPrivate(WallClock *wc)
 {
@@ -69,12 +71,25 @@ WallClockPrivateMeego::WallClockPrivateMeego(WallClock *wc)
     else
         qWarning() << "Failed to connect to timed";
     ifc.settings_changed_connect(this, SLOT(settingsChanged(const Maemo::Timed::WallClock::Info &, bool)));
+    if (!QDBusConnection::systemBus().connect(MCE_SERVICE,
+                                         MCE_SIGNAL_PATH,
+                                         MCE_SIGNAL_IF,
+                                         MCE_DISPLAY_SIG,
+                                         this,
+                                         SLOT(onDisplayStatusChanged(QString))))
+        qWarning() << "Can't connect to mce";
 }
 
 WallClockPrivateMeego::~WallClockPrivateMeego()
 {
     Maemo::Timed::Interface ifc;
     ifc.settings_changed_disconnect(this, SLOT(settingsChanged(const Maemo::Timed::WallClock::Info &, bool)));
+}
+
+void WallClockPrivateMeego::onDisplayStatusChanged(const QString &status)
+{
+    if (status == MCE_DISPLAY_ON_STRING)
+        update();
 }
 
 QString WallClockPrivateMeego::timezone() const
