@@ -34,17 +34,9 @@
 #include <QDateTime>
 #include <QtTest>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-# include <QtQml>
-# include <QQmlEngine>
-# include <QQmlComponent>
-# define QDeclarativeEngine QQmlEngine
-# define QDeclarativeComponent QQmlComponent
-#else
-# include <QtDeclarative>
-# include <QDeclarativeEngine>
-# include <QDeclarativeComponent>
-#endif
+#include <QtQml>
+#include <QQmlEngine>
+#include <QQmlComponent>
 
 
 // Kind of tricky to test much of this without messing with system setttings.
@@ -59,8 +51,8 @@ private slots:
 
 void tst_WallClock::update()
 {
-    QDeclarativeEngine engine;
-    QDeclarativeComponent comp(&engine, QUrl::fromLocalFile(TEST_DIRECTORY"/update.qml"));
+    QQmlEngine engine;
+    QQmlComponent comp(&engine, QUrl::fromLocalFile(TEST_DIRECTORY"/update.qml"));
     QObject *obj = comp.create();
     QVERIFY(obj);
 

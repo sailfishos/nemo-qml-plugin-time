@@ -31,13 +31,8 @@
  */
 
 #include <QtDBus/QDBusReply>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-# include <timed-qt5/interface>
-# include <timed-qt5/wallclock>
-#else
-# include <timed/interface>
-# include <timed/wallclock>
-#endif
+#include <timed-qt5/interface>
+#include <timed-qt5/wallclock>
 #include "nemowallclock_p.h"
 
 
