@@ -17,6 +17,7 @@ PkgConfigBR:
     - Qt5DBus
     - Qt5Test
     - timed-qt5
+    - mce
 Files:
     - "%{_libdir}/qt5/qml/org/nemomobile/time/libnemotime.so"
     - "%{_libdir}/qt5/qml/org/nemomobile/time/qmldir"
