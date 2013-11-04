@@ -88,8 +88,10 @@ WallClockPrivateMeego::~WallClockPrivateMeego()
 
 void WallClockPrivateMeego::onDisplayStatusChanged(const QString &status)
 {
-    if (status == MCE_DISPLAY_ON_STRING)
+    if (status == MCE_DISPLAY_ON_STRING) {
         update();
+        timeChanged();
+    }
 }
 
 QString WallClockPrivateMeego::timezone() const
