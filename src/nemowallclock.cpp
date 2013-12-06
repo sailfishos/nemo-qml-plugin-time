@@ -39,7 +39,7 @@
 extern WallClockPrivate *nemoCreateWallClockPrivate(WallClock *wc);
 
 WallClockPrivate::WallClockPrivate(WallClock *wallClock)
-    : q(wallClock), m_updateFreq(WallClock::Second), m_enabled(true)
+    : q(wallClock), m_updateFreq(WallClock::Second), m_enabled(true), m_suspended(false)
 {
     setLoopCount(-1);
     update();
@@ -71,6 +71,17 @@ void WallClockPrivate::setEnabled(bool e)
         emit q->timeChanged();
 }
 
+void WallClockPrivate::setSuspended(bool s)
+{
+    if (m_suspended == s)
+        return;
+
+    m_suspended = s;
+    update();
+    if (m_enabled && !m_suspended)
+        emit q->timeChanged();
+}
+
 QDateTime WallClockPrivate::time() const
 {
     return QDateTime::currentDateTime();
@@ -87,7 +98,7 @@ QString WallClockPrivate::timezoneAbbreviation() const
 }
 
 void WallClockPrivate::update() {
-    if (m_enabled) {
+    if (m_enabled && !m_suspended) {
         QTime current = QTime::currentTime();
         int initDelay = 0;
         switch (m_updateFreq) {
