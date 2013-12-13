@@ -49,12 +49,15 @@ public:
     bool enabled() const { return m_enabled; }
     virtual void setEnabled(bool);
 
+    bool suspended() const { return m_suspended; }
+
     virtual QDateTime time() const;
     virtual QString timezone() const;
     virtual QString timezoneAbbreviation() const;
 
 protected:
     virtual void update();
+    virtual void setSuspended(bool);
     void timezoneChanged();
     void timezoneAbbreviationChanged();
     void timeChanged();
@@ -66,6 +69,7 @@ private:
     WallClock *q;
     WallClock::UpdateFrequency m_updateFreq;
     bool m_enabled;
+    bool m_suspended;
 };
 
 #endif // WALLCLOCK_P_H
