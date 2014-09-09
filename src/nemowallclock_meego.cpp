@@ -79,12 +79,19 @@ WallClockPrivateMeego::WallClockPrivateMeego(WallClock *wc)
                                          SLOT(onDisplayStatusChanged(QString))))
         qWarning() << "Can't connect to mce";
 
-    QDBusReply<QString> reply = QDBusConnection::systemBus().call(QDBusMessage::createMethodCall(MCE_SERVICE,
-                                                                                                 MCE_REQUEST_PATH,
-                                                                                                 MCE_REQUEST_IF,
-                                                                                                 MCE_DISPLAY_STATUS_GET));
-    if (reply.isValid())
-        onDisplayStatusChanged(reply.value());
+    QDBusPendingCall call = QDBusConnection::systemBus().asyncCall
+        (QDBusMessage::createMethodCall(MCE_SERVICE,
+                                        MCE_REQUEST_PATH,
+                                        MCE_REQUEST_IF,
+                                        MCE_DISPLAY_STATUS_GET));
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(call, this);
+    this->connect(watcher, &QDBusPendingCallWatcher::finished
+                  , [this](QDBusPendingCallWatcher *w) {
+                      QDBusPendingReply<QString> reply = *w;
+                      w->deleteLater();
+                      if (reply.isValid())
+                          onDisplayStatusChanged(reply.value());
+                    });
 }
 
 WallClockPrivateMeego::~WallClockPrivateMeego()
