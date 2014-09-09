@@ -31,12 +31,51 @@
  */
 
 #include <QtDBus/QDBusReply>
+#include <functional>
 #include <timed-qt5/interface>
 #include <timed-qt5/wallclock>
 #include "nemowallclock_p.h"
 
 #include <mce/dbus-names.h>
 #include <mce/mode-names.h>
+
+namespace {
+
+// copied from statefs-providers common headers, it is better to move
+// this functionality to the qtaround library and use it directly
+template <typename OnValue, typename T>
+bool callback_or_error(QDBusPendingReply<T> const &reply, OnValue on_value)
+{
+    if (reply.isError()) {
+        auto err = reply.error();
+        qWarning() << "D-Bus request error " << err.name()
+                   << ": " << err.message();
+        return false;
+    }
+
+    on_value(reply.value());
+    return true;
+}
+
+template <typename T, typename OnValue>
+void async(QObject *parent, QDBusPendingCallWatcher *watcher, OnValue on_value)
+{
+    parent->connect(watcher, &QDBusPendingCallWatcher::finished
+                  , [on_value](QDBusPendingCallWatcher *w) {
+                        QDBusPendingReply<T> reply = *w;
+                        callback_or_error(reply, on_value);
+                        w->deleteLater();
+                    });
+}
+
+template <typename T, typename OnValue>
+void async(QObject *parent, QDBusPendingCall const &call, OnValue &&on_value)
+{
+    auto watcher = new QDBusPendingCallWatcher(call, parent);
+    async<T>(parent, watcher, std::forward<OnValue>(on_value));
+}
+
+} // anon namespace
 
 class WallClockPrivateMeego : public WallClockPrivate
 {
@@ -64,34 +103,26 @@ WallClockPrivate *nemoCreateWallClockPrivate(WallClock *wc)
 WallClockPrivateMeego::WallClockPrivateMeego(WallClock *wc)
     : WallClockPrivate(wc)
 {
+    using Maemo::Timed::WallClock::Info;
     Maemo::Timed::Interface ifc;
-    QDBusReply<Maemo::Timed::WallClock::Info> result = ifc.get_wall_clock_info_sync();
-    if (result.isValid())
-        info = result.value();
-    else
-        qWarning() << "Failed to connect to timed";
     ifc.settings_changed_connect(this, SLOT(settingsChanged(const Maemo::Timed::WallClock::Info &, bool)));
-    if (!QDBusConnection::systemBus().connect(MCE_SERVICE,
-                                         MCE_SIGNAL_PATH,
-                                         MCE_SIGNAL_IF,
-                                         MCE_DISPLAY_SIG,
-                                         this,
-                                         SLOT(onDisplayStatusChanged(QString))))
-        qWarning() << "Can't connect to mce";
 
-    QDBusPendingCall call = QDBusConnection::systemBus().asyncCall
-        (QDBusMessage::createMethodCall(MCE_SERVICE,
-                                        MCE_REQUEST_PATH,
-                                        MCE_REQUEST_IF,
-                                        MCE_DISPLAY_STATUS_GET));
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(call, this);
-    this->connect(watcher, &QDBusPendingCallWatcher::finished
-                  , [this](QDBusPendingCallWatcher *w) {
-                      QDBusPendingReply<QString> reply = *w;
-                      w->deleteLater();
-                      if (reply.isValid())
-                          onDisplayStatusChanged(reply.value());
-                    });
+    auto onInfo = [this](Info const &res) {
+        info = res;
+        if (!QDBusConnection::systemBus().connect
+            (MCE_SERVICE, MCE_SIGNAL_PATH, MCE_SIGNAL_IF, MCE_DISPLAY_SIG,
+             this, SLOT(onDisplayStatusChanged(QString))))
+            qWarning() << "Can't connect to mce";
+
+        QDBusPendingCall call = QDBusConnection::systemBus().asyncCall
+        (QDBusMessage::createMethodCall
+         (MCE_SERVICE, MCE_REQUEST_PATH, MCE_REQUEST_IF, MCE_DISPLAY_STATUS_GET));
+        using namespace std::placeholders;
+        async<QString>(this, call,
+                       std::bind(&WallClockPrivateMeego::onDisplayStatusChanged,
+                                 this, _1));
+    };
+    async<Info>(this, ifc.get_wall_clock_info_async(), onInfo);
 }
 
 WallClockPrivateMeego::~WallClockPrivateMeego()
