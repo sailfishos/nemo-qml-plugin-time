@@ -2,7 +2,7 @@ TARGET = nemotime
 PLUGIN_IMPORT_PATH = org/nemomobile/time
 
 TEMPLATE = lib
-CONFIG += qt plugin hide_symbols
+CONFIG += qt plugin hide_symbols c++11
 QT += qml
 
 target.path = $$[QT_INSTALL_QML]/$$PLUGIN_IMPORT_PATH
