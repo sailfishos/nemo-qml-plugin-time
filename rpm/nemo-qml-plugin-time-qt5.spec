@@ -31,6 +31,7 @@ BuildRequires:  pkgconfig(mce)
 Summary:    QML time plugin tests
 Group:      System/Libraries
 Requires:   %{name} = %{version}-%{release}
+Requires:   mce-tools
 
 %description tests
 Tests for QML time plugin

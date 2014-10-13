@@ -26,6 +26,8 @@ SubPackages:
       Summary: QML time plugin tests
       Group: System/Libraries
       Description: Tests for QML time plugin
+      Requires:
+          - mce-tools
       Files:
           - "/opt/tests/nemo-qml-plugins-qt5/time/*"
 
