@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testdefinition version="1.0">
    <suite name="nemo-qml-plugin-time" domain="nemo-qml-plugin-time">
-       <set name="nemo-qml-plugin-time-unit-tests" feature="time">
+       <set name="nemo-qml-plugin-time-unit-tests" feature="nemo-qml-plugin-time">
            <pre_steps>
                <step>/usr/sbin/mcetool --set-never-blank=disabled --set-demo-mode=off --block=1 --set-never-blank=enabled --unblank-screen --block=1 --set-tklock-mode=unlocked</step>
            </pre_steps>
