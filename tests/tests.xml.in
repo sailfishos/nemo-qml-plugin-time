@@ -2,6 +2,12 @@
 <testdefinition version="1.0">
    <suite name="nemo-qml-plugin-time" domain="nemo-qml-plugin-time">
        <set name="nemo-qml-plugin-time-unit-tests" feature="time">
+           <pre_steps>
+               <step>/usr/sbin/mcetool --set-never-blank=disabled --set-demo-mode=off --block=1 --set-never-blank=enabled --unblank-screen --block=1 --set-tklock-mode=unlocked</step>
+           </pre_steps>
+           <post_steps>
+               <step>/usr/sbin/mcetool --set-never-blank=disabled --set-demo-mode=off</step>
+           </post_steps>
            <case name="nemo-qml-plugin-time-unit-tests_tst_WallClock" type="Unit" level="Component">
                <step>@PATH@/tst_wallclock</step>
            </case>
