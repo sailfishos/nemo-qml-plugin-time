@@ -65,9 +65,6 @@ public:
     UpdateFrequency updateFrequency() const;
     void setUpdateFrequency(UpdateFrequency);
 
-private slots:
-    void updateTimer();
-
 signals:
     void enabledChanged();
     void timeChanged();
