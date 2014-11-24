@@ -31,6 +31,8 @@
  */
 
 #include <QtDBus/QDBusReply>
+#include <QQmlEngine>
+#include <qqml.h>
 #include <functional>
 #include <timed-qt5/interface>
 #include <timed-qt5/wallclock>
@@ -154,13 +156,21 @@ void WallClockPrivateMeego::settingsChanged(const Maemo::Timed::WallClock::Info 
 
     info = newInfo;
 
+    if (tzChange || tzaChange) {
+        QQmlEngine *engine = QtQml::qmlEngine(wallClock());
+        // Notify qml engine timezone before emitting signals, so handler code has it already up to date
+        if (engine) {
+            engine->evaluate("Date.timeZoneUpdated()");
+        }
+    }
+
     if (tzChange)
         timezoneChanged();
     if (tzaChange)
         timezoneAbbreviationChanged();
     if (time_changed)
         systemTimeChanged();
-    if (tzaChange || tzaChange || time_changed || hourModeChange)
+    if (tzChange || tzaChange || time_changed || hourModeChange)
         timeChanged();
 }
 

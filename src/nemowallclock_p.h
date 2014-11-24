@@ -62,6 +62,7 @@ protected:
     void timezoneAbbreviationChanged();
     void timeChanged();
     void systemTimeChanged();
+    WallClock *wallClock() { return q; }
 
 private:
     virtual void updateCurrentTime(int);
