@@ -56,6 +56,7 @@ public:
     virtual QDateTime time() const;
     virtual QString timezone() const;
     virtual QString timezoneAbbreviation() const;
+    virtual int timezoneOffsetFromUtc() const;
 
 protected:
     virtual void update();
@@ -63,6 +64,7 @@ protected:
     void readyChanged();
     void timezoneChanged();
     void timezoneAbbreviationChanged();
+    void timezoneOffsetFromUtcChanged();
     void timeChanged();
     void systemTimeChanged();
     WallClock *wallClock() { return q; }

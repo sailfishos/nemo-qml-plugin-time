@@ -60,6 +60,7 @@ void tst_WallClock::update()
     QSignalSpy readySpy(obj, SIGNAL(readyChanged()));
     QSignalSpy timezoneSpy(obj, SIGNAL(timezoneChanged()));
     QSignalSpy timezoneAbbreviationSpy(obj, SIGNAL(timezoneAbbreviationChanged()));
+    QSignalSpy timezoneOffsetSpy(obj, SIGNAL(timezoneOffsetFromUtcChanged()));
 
     QVERIFY(!obj->property("ready").toBool());
     QVERIFY(obj->property("timezone").toString().isEmpty());
@@ -70,6 +71,7 @@ void tst_WallClock::update()
     QTRY_VERIFY(!updateSpy.isEmpty());
     QTRY_VERIFY(!timezoneSpy.isEmpty());
     QTRY_VERIFY(!timezoneAbbreviationSpy.isEmpty());
+    QTRY_VERIFY(!timezoneOffsetSpy.isEmpty());
 
     QVERIFY(obj->property("ready").toBool());
     QVERIFY(!obj->property("timezone").toString().isEmpty());
@@ -78,6 +80,7 @@ void tst_WallClock::update()
     updateSpy.clear();
     timezoneSpy.clear();
     timezoneAbbreviationSpy.clear();
+    timezoneOffsetSpy.clear();
 
     QDateTime currentTime = QDateTime::currentDateTime();
     int year = obj->property("year").toInt();

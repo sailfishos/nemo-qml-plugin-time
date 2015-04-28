@@ -93,6 +93,7 @@ void WallClockPrivate::readyChanged()
     emit q->readyChanged();
     emit q->timezoneChanged();
     emit q->timezoneAbbreviationChanged();
+    emit q->timezoneOffsetFromUtcChanged();
     emit q->timeChanged();
 }
 
@@ -109,6 +110,11 @@ QString WallClockPrivate::timezone() const
 QString WallClockPrivate::timezoneAbbreviation() const
 {
     return QString();
+}
+
+int WallClockPrivate::timezoneOffsetFromUtc() const
+{
+    return 0;
 }
 
 void WallClockPrivate::update() {
@@ -154,6 +160,11 @@ void WallClockPrivate::timezoneChanged()
 void WallClockPrivate::timezoneAbbreviationChanged()
 {
     emit q->timezoneAbbreviationChanged();
+}
+
+void WallClockPrivate::timezoneOffsetFromUtcChanged()
+{
+    emit q->timezoneOffsetFromUtcChanged();
 }
 
 void WallClockPrivate::systemTimeChanged()
@@ -254,6 +265,17 @@ QString WallClock::timezone() const
 QString WallClock::timezoneAbbreviation() const
 {
     return d->timezoneAbbreviation();
+}
+
+/*!
+    \qmlproperty int WallClock::timezoneOffsetFromUtc
+
+    Provides the offset in seconds from UTC of the current \a timezone. Positive values are east of
+    UTC, negative values are west of UTC.
+*/
+int WallClock::timezoneOffsetFromUtc() const
+{
+    return d->timezoneOffsetFromUtc();
 }
 
 /*!
