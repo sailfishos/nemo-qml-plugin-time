@@ -57,17 +57,21 @@ void tst_WallClock::update()
     QVERIFY(obj);
 
     QSignalSpy updateSpy(obj, SIGNAL(timeChanged()));
+    QSignalSpy readySpy(obj, SIGNAL(readyChanged()));
     QSignalSpy timezoneSpy(obj, SIGNAL(timezoneChanged()));
     QSignalSpy timezoneAbbreviationSpy(obj, SIGNAL(timezoneAbbreviationChanged()));
 
+    QVERIFY(!obj->property("ready").toBool());
     QVERIFY(obj->property("timezone").toString().isEmpty());
     QVERIFY(obj->property("timezoneAbbreviation").toString().isEmpty());
 
     // Expect an initial update
+    QTRY_VERIFY(!readySpy.isEmpty());
     QTRY_VERIFY(!updateSpy.isEmpty());
     QTRY_VERIFY(!timezoneSpy.isEmpty());
     QTRY_VERIFY(!timezoneAbbreviationSpy.isEmpty());
 
+    QVERIFY(obj->property("ready").toBool());
     QVERIFY(!obj->property("timezone").toString().isEmpty());
     QVERIFY(!obj->property("timezoneAbbreviation").toString().isEmpty());
 

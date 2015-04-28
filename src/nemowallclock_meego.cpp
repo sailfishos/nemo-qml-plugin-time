@@ -111,9 +111,7 @@ WallClockPrivateMeego::WallClockPrivateMeego(WallClock *wc)
 
     auto onInfo = [this](Info const &res) {
         info = res;
-        timezoneChanged();
-        timezoneAbbreviationChanged();
-        timeChanged();
+        readyChanged();
         if (!QDBusConnection::systemBus().connect
             (MCE_SERVICE, MCE_SIGNAL_PATH, MCE_SIGNAL_IF, MCE_DISPLAY_SIG,
              this, SLOT(onDisplayStatusChanged(QString))))

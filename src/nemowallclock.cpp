@@ -39,7 +39,8 @@
 extern WallClockPrivate *nemoCreateWallClockPrivate(WallClock *wc);
 
 WallClockPrivate::WallClockPrivate(WallClock *wallClock)
-    : q(wallClock), m_updateFreq(WallClock::Second), m_enabled(true), m_suspended(false)
+:   q(wallClock), m_updateFreq(WallClock::Second), m_enabled(true), m_suspended(false),
+    m_ready(false)
 {
     setLoopCount(-1);
     update();
@@ -80,6 +81,19 @@ void WallClockPrivate::setSuspended(bool s)
     update();
     if (m_enabled && !m_suspended)
         emit q->timeChanged();
+}
+
+void WallClockPrivate::readyChanged()
+{
+    if (m_ready)
+        return;
+
+    m_ready = true;
+
+    emit q->readyChanged();
+    emit q->timezoneChanged();
+    emit q->timezoneAbbreviationChanged();
+    emit q->timeChanged();
 }
 
 QDateTime WallClockPrivate::time() const
@@ -180,6 +194,16 @@ WallClock::WallClock(QObject *parent)
 WallClock::~WallClock()
 {
     delete d;
+}
+
+/*!
+    \qmlproperty bool WallClock::ready
+
+    Indicates whether the WallClock has finished initialising.
+*/
+bool WallClock::ready() const
+{
+    return d->ready();
 }
 
 /*!
