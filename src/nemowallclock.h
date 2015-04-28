@@ -42,11 +42,14 @@ class WallClockPrivate;
 class WallClock : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(bool ready READ ready NOTIFY readyChanged)
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(QDateTime time READ time NOTIFY timeChanged)
     Q_PROPERTY(QString timezone READ timezone NOTIFY timezoneChanged)
     Q_PROPERTY(QString timezoneAbbreviation READ timezoneAbbreviation NOTIFY timezoneAbbreviationChanged)
     Q_PROPERTY(UpdateFrequency updateFrequency READ updateFrequency WRITE setUpdateFrequency NOTIFY updateFrequencyChanged)
+
     Q_ENUMS(UpdateFrequency)
 
 public:
@@ -54,6 +57,8 @@ public:
     ~WallClock();
 
     enum UpdateFrequency { Day, Minute, Second };
+
+    bool ready() const;
 
     bool enabled() const;
     void setEnabled(bool);
@@ -66,6 +71,7 @@ public:
     void setUpdateFrequency(UpdateFrequency);
 
 signals:
+    void readyChanged();
     void enabledChanged();
     void timeChanged();
     void timezoneChanged();

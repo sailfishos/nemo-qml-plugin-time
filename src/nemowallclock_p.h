@@ -46,6 +46,8 @@ public:
     WallClock::UpdateFrequency updateFrequency() const { return m_updateFreq; }
     virtual void setUpdateFrequency(WallClock::UpdateFrequency);
 
+    bool ready() const { return m_ready; }
+
     bool enabled() const { return m_enabled; }
     virtual void setEnabled(bool);
 
@@ -58,6 +60,7 @@ public:
 protected:
     virtual void update();
     virtual void setSuspended(bool);
+    void readyChanged();
     void timezoneChanged();
     void timezoneAbbreviationChanged();
     void timeChanged();
@@ -71,6 +74,7 @@ private:
     WallClock::UpdateFrequency m_updateFreq;
     bool m_enabled;
     bool m_suspended;
+    bool m_ready;
 };
 
 #endif // WALLCLOCK_P_H
