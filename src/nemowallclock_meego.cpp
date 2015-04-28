@@ -88,6 +88,7 @@ public:
 
     virtual QString timezone() const;
     virtual QString timezoneAbbreviation() const;
+    virtual int timezoneOffsetFromUtc() const;
 
 private slots:
     void settingsChanged(const Maemo::Timed::WallClock::Info &info, bool time_changed);
@@ -149,10 +150,16 @@ QString WallClockPrivateMeego::timezoneAbbreviation() const
     return info.tzAbbreviation();
 }
 
+int WallClockPrivateMeego::timezoneOffsetFromUtc() const
+{
+    return info.secondsEastOfGmt();
+}
+
 void WallClockPrivateMeego::settingsChanged(const Maemo::Timed::WallClock::Info &newInfo, bool time_changed)
 {
     bool tzChange = newInfo.humanReadableTz() != info.humanReadableTz();
     bool tzaChange = newInfo.tzAbbreviation() != info.tzAbbreviation();
+    bool tzoChange = newInfo.secondsEastOfGmt() != info.secondsEastOfGmt();
     bool hourModeChange = newInfo.flagFormat24() != info.flagFormat24();
 
     info = newInfo;
@@ -169,9 +176,11 @@ void WallClockPrivateMeego::settingsChanged(const Maemo::Timed::WallClock::Info 
         timezoneChanged();
     if (tzaChange)
         timezoneAbbreviationChanged();
+    if (tzoChange)
+        timezoneOffsetFromUtcChanged();
     if (time_changed)
         systemTimeChanged();
-    if (tzChange || tzaChange || time_changed || hourModeChange)
+    if (tzChange || tzaChange || tzoChange || time_changed || hourModeChange)
         timeChanged();
 }
 

@@ -48,6 +48,7 @@ class WallClock : public QObject
     Q_PROPERTY(QDateTime time READ time NOTIFY timeChanged)
     Q_PROPERTY(QString timezone READ timezone NOTIFY timezoneChanged)
     Q_PROPERTY(QString timezoneAbbreviation READ timezoneAbbreviation NOTIFY timezoneAbbreviationChanged)
+    Q_PROPERTY(int timezoneOffsetFromUtc READ timezoneOffsetFromUtc NOTIFY timezoneOffsetFromUtcChanged)
     Q_PROPERTY(UpdateFrequency updateFrequency READ updateFrequency WRITE setUpdateFrequency NOTIFY updateFrequencyChanged)
 
     Q_ENUMS(UpdateFrequency)
@@ -66,6 +67,7 @@ public:
     QDateTime time() const;
     QString timezone() const;
     QString timezoneAbbreviation() const;
+    int timezoneOffsetFromUtc() const;
 
     UpdateFrequency updateFrequency() const;
     void setUpdateFrequency(UpdateFrequency);
@@ -76,6 +78,7 @@ signals:
     void timeChanged();
     void timezoneChanged();
     void timezoneAbbreviationChanged();
+    void timezoneOffsetFromUtcChanged();
     void updateFrequencyChanged();
     void systemTimeUpdated();
 
