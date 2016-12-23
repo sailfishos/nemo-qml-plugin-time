@@ -15,7 +15,6 @@ Group:      System/Libraries
 License:    BSD
 URL:        https://github.com/nemomobile/nemo-qml-plugin-time
 Source0:    %{name}-%{version}.tar.bz2
-Source100:  nemo-qml-plugin-time-qt5.yaml
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Qml)
