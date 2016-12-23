@@ -183,7 +183,7 @@ void WallClockPrivate::timeChanged()
     \qmlclass WallClock WallClock
     \brief The WallClock type provides the current date/time
 
-    import org.nemomobile.time 1.0
+    import Nemo.Time 1.0
 
     The WallClock type provides the current date and time via
     the \l time JS Date property.

@@ -1,4 +1,4 @@
-import org.nemomobile.time 1.0
+import Nemo.Time 1.0
 
 WallClock {
     property int year: time.getFullYear()

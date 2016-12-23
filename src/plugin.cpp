@@ -42,19 +42,19 @@
 class Q_DECL_EXPORT NemoTimePlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.nemomobile.time")
+    Q_PLUGIN_METADATA(IID "Nemo.Time")
 
 public:
     virtual ~NemoTimePlugin() { }
 
     void initializeEngine(QQmlEngine *engine, const char *uri)
     {
-        Q_ASSERT(uri == QLatin1String("org.nemomobile.time"));
+        Q_ASSERT(uri == QLatin1String("Nemo.Time") || uri == QLatin1String("org.nemomobile.time"));
     }
 
     void registerTypes(const char *uri)
     {
-        Q_ASSERT(uri == QLatin1String("org.nemomobile.time"));
+        Q_ASSERT(uri == QLatin1String("Nemo.Time") || uri == QLatin1String("org.nemomobile.time"));
         qmlRegisterType<WallClock>(uri, 1, 0, "WallClock");
     }
 };
