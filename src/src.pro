@@ -1,5 +1,5 @@
 TARGET = nemotime
-PLUGIN_IMPORT_PATH = org/nemomobile/time
+PLUGIN_IMPORT_PATH = Nemo/Time
 
 TEMPLATE = lib
 CONFIG += qt plugin hide_symbols c++11

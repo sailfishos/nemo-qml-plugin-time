@@ -1,2 +1,2 @@
-module org.nemomobile.time
+module Nemo.Time
 plugin nemotime
