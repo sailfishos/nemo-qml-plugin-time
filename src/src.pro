@@ -3,7 +3,7 @@ PLUGIN_IMPORT_PATH = Nemo/Time
 
 TEMPLATE = lib
 CONFIG += qt plugin hide_symbols c++11
-QT += qml
+QT = qml
 
 target.path = $$[QT_INSTALL_QML]/$$PLUGIN_IMPORT_PATH
 INSTALLS += target
