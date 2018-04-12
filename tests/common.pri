@@ -1,4 +1,4 @@
-QT += testlib qml
+QT = testlib qml
 TEMPLATE = app
 
 target.path = /opt/tests/nemo-qml-plugins-qt5/time
