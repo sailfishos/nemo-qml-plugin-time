@@ -5,7 +5,7 @@ Version:    0.0.0
 Release:    1
 Group:      System/Libraries
 License:    BSD
-URL:        https://github.com/nemomobile/nemo-qml-plugin-time
+URL:        https://git.merproject.org/mer-core/nemo-qml-plugin-time
 Source0:    %{name}-%{version}.tar.bz2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
@@ -48,6 +48,7 @@ sed 's/Nemo.Time/org.nemomobile.time/' < src/qmldir > %{buildroot}%{_libdir}/qt5
 %defattr(-,root,root,-)
 %dir %{_libdir}/qt5/qml/Nemo/Time
 %{_libdir}/qt5/qml/Nemo/Time/libnemotime.so
+%{_libdir}/qt5/qml/Nemo/Time/plugins.qmltypes
 %{_libdir}/qt5/qml/Nemo/Time/qmldir
 
 # org.nemomobile.time legacy import
