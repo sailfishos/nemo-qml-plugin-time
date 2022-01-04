@@ -1,11 +1,10 @@
 Name:       nemo-qml-plugin-time-qt5
 
 Summary:    Wall clock plugin for Nemo Mobile
-Version:    0.0.0
+Version:    0.1.4
 Release:    1
-Group:      System/Libraries
 License:    BSD
-URL:        https://git.merproject.org/mer-core/nemo-qml-plugin-time
+URL:        https://github.com/sailfishos/nemo-qml-plugin-time
 Source0:    %{name}-%{version}.tar.bz2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
@@ -19,7 +18,6 @@ BuildRequires:  pkgconfig(mce)
 
 %package tests
 Summary:    QML time plugin tests
-Group:      System/Libraries
 Requires:   %{name} = %{version}-%{release}
 Requires:   mce-tools
 
@@ -36,7 +34,6 @@ Tests for QML time plugin
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 %qmake5_install
 
 # org.nemomobile.time legacy import
@@ -46,6 +43,7 @@ sed 's/Nemo.Time/org.nemomobile.time/' < src/qmldir > %{buildroot}%{_libdir}/qt5
 
 %files
 %defattr(-,root,root,-)
+%license LICENSE.BSD
 %dir %{_libdir}/qt5/qml/Nemo/Time
 %{_libdir}/qt5/qml/Nemo/Time/libnemotime.so
 %{_libdir}/qt5/qml/Nemo/Time/plugins.qmltypes
