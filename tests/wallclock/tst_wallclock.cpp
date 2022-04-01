@@ -82,20 +82,13 @@ void tst_WallClock::update()
     timezoneAbbreviationSpy.clear();
     timezoneOffsetSpy.clear();
 
-    QDateTime currentTime = QDateTime::currentDateTime();
-    int year = obj->property("year").toInt();
-    int month = obj->property("month").toInt();
-    int day = obj->property("day").toInt();
-    int hour = obj->property("hour").toInt();
-    int minute = obj->property("minute").toInt();
-    int second = obj->property("second").toInt();
-    QCOMPARE(year, currentTime.date().year());
-    QCOMPARE(month, currentTime.date().month()-1);
-    QCOMPARE(day, currentTime.date().day());
-    QCOMPARE(hour, currentTime.time().hour());
-    QCOMPARE(minute, currentTime.time().minute());
-    QCOMPARE(second, currentTime.time().second());
-    int lastSecond = second;
+    int currentSecs = QDateTime::currentDateTime().toMSecsSinceEpoch() / 1000;
+
+    QDateTime time = obj->property("time").toDateTime();
+    QVERIFY(time.isValid());
+    int timeSecs = time.toMSecsSinceEpoch() / 1000;
+    // giving some leeway
+    QVERIFY(currentSecs == timeSecs || currentSecs == timeSecs + 1);
 
     int upCount = updateSpy.count();
     int tryCount = 10;
@@ -107,21 +100,11 @@ void tst_WallClock::update()
     }
     QVERIFY(updateSpy.count() == upCount + 1);
 
-    currentTime = QDateTime::currentDateTime();
-    year = obj->property("year").toInt();
-    month = obj->property("month").toInt();
-    day = obj->property("day").toInt();
-    hour = obj->property("hour").toInt();
-    minute = obj->property("minute").toInt();
-    second = obj->property("second").toInt();
-    QCOMPARE(year, currentTime.date().year());
-    QCOMPARE(month, currentTime.date().month()-1);
-    QCOMPARE(day, currentTime.date().day());
-    QCOMPARE(hour, currentTime.time().hour());
-    QCOMPARE(minute, currentTime.time().minute());
-    QCOMPARE(second, currentTime.time().second());
-
-    QVERIFY((lastSecond+1)%60 == second);
+    currentSecs = QDateTime::currentDateTime().toMSecsSinceEpoch() / 1000;
+    time = obj->property("time").toDateTime();
+    QVERIFY(time.isValid());
+    timeSecs = time.toMSecsSinceEpoch() / 1000;
+    QVERIFY(currentSecs == timeSecs || currentSecs == timeSecs + 1);
 
     // would be nice to also test minute and day updates,
     // but who wants to wait 24hrs for a test to run.
