@@ -165,7 +165,11 @@ void WallClockPrivateMeego::settingsChanged(const Maemo::Timed::WallClock::Info 
     info = newInfo;
 
     if (tzChange || tzaChange) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QQmlEngine *engine = qmlEngine(wallClock());
+#else
         QQmlEngine *engine = QtQml::qmlEngine(wallClock());
+#endif
         // Notify qml engine timezone before emitting signals, so handler code has it already up to date
         if (engine) {
             engine->evaluate("Date.timeZoneUpdated()");

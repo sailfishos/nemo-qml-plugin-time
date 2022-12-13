@@ -21,7 +21,7 @@ SOURCES += plugin.cpp \
 HEADERS += nemowallclock.h \
             nemowallclock_p.h
 
-LIBS += -ltimed-qt5
+LIBS += -ltimed-qt$${QT_MAJOR_VERSION}
 
 QT += dbus
 SOURCES += nemowallclock_meego.cpp
