@@ -49,12 +49,16 @@ public:
 
     void initializeEngine(QQmlEngine *engine, const char *uri)
     {
+        Q_UNUSED(engine);
         Q_ASSERT(uri == QLatin1String("Nemo.Time") || uri == QLatin1String("org.nemomobile.time"));
     }
 
     void registerTypes(const char *uri)
     {
         Q_ASSERT(uri == QLatin1String("Nemo.Time") || uri == QLatin1String("org.nemomobile.time"));
+        if (uri == QLatin1String("org.nemomobile.time")) {
+            qWarning() << "org.nemomobile.time is deprecated qml module name and subject to be removed. Please migrate to Nemo.Time";
+        }
         qmlRegisterType<WallClock>(uri, 1, 0, "WallClock");
     }
 };
