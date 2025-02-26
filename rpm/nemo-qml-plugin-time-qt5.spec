@@ -30,8 +30,7 @@ Tests for QML time plugin
 %build
 
 %qmake5 
-
-make %{?_smp_mflags}
+%make_build
 
 %install
 %qmake5_install
@@ -42,7 +41,6 @@ ln -sf %{_libdir}/qt5/qml/Nemo/Time/libnemotime.so %{buildroot}%{_libdir}/qt5/qm
 sed 's/Nemo.Time/org.nemomobile.time/' < src/qmldir > %{buildroot}%{_libdir}/qt5/qml/org/nemomobile/time/qmldir
 
 %files
-%defattr(-,root,root,-)
 %license LICENSE.BSD
 %dir %{_libdir}/qt5/qml/Nemo/Time
 %{_libdir}/qt5/qml/Nemo/Time/libnemotime.so
@@ -55,5 +53,4 @@ sed 's/Nemo.Time/org.nemomobile.time/' < src/qmldir > %{buildroot}%{_libdir}/qt5
 %{_libdir}/qt5/qml/org/nemomobile/time/qmldir
 
 %files tests
-%defattr(-,root,root,-)
-/opt/tests/nemo-qml-plugins-qt5/time/*
+/opt/tests/nemo-qml-plugin-time-qt5
