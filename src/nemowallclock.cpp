@@ -39,8 +39,11 @@
 extern WallClockPrivate *nemoCreateWallClockPrivate(WallClock *wc);
 
 WallClockPrivate::WallClockPrivate(WallClock *wallClock)
-:   q(wallClock), m_updateFreq(WallClock::Second), m_enabled(true), m_suspended(false),
-    m_ready(false)
+    : q(wallClock)
+    , m_updateFreq(WallClock::Second)
+    , m_enabled(true)
+    , m_suspended(false)
+    , m_ready(false)
 {
     setLoopCount(-1);
     update();
@@ -117,7 +120,8 @@ int WallClockPrivate::timezoneOffsetFromUtc() const
     return 0;
 }
 
-void WallClockPrivate::update() {
+void WallClockPrivate::update()
+{
     if (m_enabled && !m_suspended) {
         QTime current = QTime::currentTime();
         int initDelay = 0;
@@ -134,7 +138,7 @@ void WallClockPrivate::update() {
         }
 
         setCurrentTime(0);
-        setDuration(initDelay+8); // animation timer can fire slightly before our target
+        setDuration(initDelay + 8); // animation timer can fire slightly before our target
         if (state() != Running)
             start();
     } else {

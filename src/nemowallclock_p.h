@@ -61,6 +61,7 @@ public:
 protected:
     virtual void update();
     virtual void setSuspended(bool);
+
     void readyChanged();
     void timezoneChanged();
     void timezoneAbbreviationChanged();
