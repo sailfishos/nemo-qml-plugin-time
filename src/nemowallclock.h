@@ -36,7 +36,6 @@
 #include <QObject>
 #include <QDateTime>
 
-
 class WallClockPrivate;
 
 class WallClock : public QObject

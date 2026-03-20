@@ -34,6 +34,7 @@
 #include <QQmlEngine>
 #include <qqml.h>
 #include <functional>
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <timed-qt6/interface>
 #include <timed-qt6/wallclock>
@@ -41,6 +42,7 @@
 #include <timed-qt5/interface>
 #include <timed-qt5/wallclock>
 #endif
+
 #include "nemowallclock_p.h"
 
 #include <mce/dbus-names.h>

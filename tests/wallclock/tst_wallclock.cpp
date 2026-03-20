@@ -127,6 +127,5 @@ void tst_WallClock::update()
     QVERIFY(updateSpy.count() > upCount + 1);
 }
 
-
 #include "tst_wallclock.moc"
 QTEST_MAIN(tst_WallClock)

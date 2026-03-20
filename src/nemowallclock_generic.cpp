@@ -5,4 +5,3 @@ WallClockPrivate *nemoCreateWallClockPrivate(WallClock *wc)
 {
     return new WallClockPrivate(wc);
 }
-
